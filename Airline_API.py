@@ -1,16 +1,16 @@
-# This is a sample Python script.
+import http.client
+import config
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+conn = http.client.HTTPSConnection("flight-fare-search.p.rapidapi.com")
 
+headers = {
+    'X-RapidAPI-Key': f"{config.api_key}",
+    'X-RapidAPI-Host': "flight-fare-search.p.rapidapi.com"
+}
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+conn.request("GET", "/v2/airport/departures?airportCode=ATL&date=2023-05-17&carrierCode=DL", headers=headers)
 
+res = conn.getresponse()
+data = res.read()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(data.decode("utf-8"))
